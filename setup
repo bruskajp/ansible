@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ -z "$1" ] || [ -z "2" ] || [ -z "3" ] || [ -z "4" ]; then
-    echo "Usage: ./setup ansible-host-name desired-host-name username username-key"
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] || [ -z "$4" ] || [ -z "$5" ; then
+    echo "Usage: ./setup ansible-host-name desired-host-name desired-static-ip username username-key"
     exit 1
 fi
 
-ansible-playbook .setup.yml -K -e "target=$1 ansible_ssh_port=22 hostname=$2 username=$3 userkey=\"$4\"" ${@:5}
+ansible-playbook .setup.yml -K -e "target=$1 ansible_ssh_port=22 hostname=$2 staticip=$3 username=$4 userkey=\"$5\"" ${@:5}

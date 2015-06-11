@@ -19,6 +19,9 @@
 - name: add ansible key
   authorized_key: user=ansible state=present key="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEale3rgwFlUeyFUCGtSFnYC0gHJpl1+qFv0hmy+hU/C ansible"
 
+- name: set static ip
+  template: src=interfaces.j2 dest=/etc/network/interfaces owner=root group=root mode=0644
+
 - name: set hostname
   hostname: name={{ hostname }}
 
