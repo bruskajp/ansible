@@ -1,0 +1,3 @@
+# Our static inventory file.
+# Eventually we might want to tie this to a service such as FreeIPA,
+# but for now we just hardcode the servers that are ansible-managed.

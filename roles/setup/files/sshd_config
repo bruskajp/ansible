@@ -1,0 +1,59 @@
+Port 13699
+
+# Crypto. DO NOT CHANGE THESE WITHOUT CONSULTING RUST OR A
+# PROFESSIONAL CRYPTOGRAPHER.
+
+Protocol 2
+# Use only a SafeCurve(TM) endorsed by djb and other leading cryptographers.
+KexAlgorithms curve25519-sha256@libssh.org
+# Use a secure, simple timing-attack free cipher with AEAD (chacha20-poly1305)
+# by default.
+# We allow aes256-gcm (also AEAD) for compatability.
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com
+# Strongest MAC as of 2015-06-11.
+MACs hmac-sha2-512-etm@openssh.com
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+# "sandbox", beyond just "yes", will try to sandbox the pre-authenticated
+# child beyond just changing privileges. The current implementation
+# on Linux is rather weak, but it's better than nothing and will
+# presumably continue improving.
+UsePrivilegeSeparation sandbox
+
+# Logging
+SyslogFacility AUTH
+LogLevel INFO
+
+# Authentication:
+LoginGraceTime 120
+PermitRootLogin no
+StrictModes yes
+
+# Possibly enable this for Kerberos
+# ChallengeResponseAuthentication yes
+
+# Allow only pubkey authentication.
+PasswordAuthentication no
+
+PrintLastLog yes
+TCPKeepAlive yes
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+# Enable sftp.
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# Set this to 'yes' to enable PAM authentication, account processing,
+# and session processing. If this is enabled, PAM authentication will
+# be allowed through the ChallengeResponseAuthentication and
+# PasswordAuthentication.  Depending on your PAM configuration,
+# PAM authentication via ChallengeResponseAuthentication may bypass
+# the setting of "PermitRootLogin without-password".
+# If you just want the PAM account and session checks to run without
+# PAM authentication, then enable this but set PasswordAuthentication
+# and ChallengeResponseAuthentication to 'no'.
+UsePAM yes
+
+# Only allow users we expect to ssh in, to ssh in.
+AllowGroups ssh-user

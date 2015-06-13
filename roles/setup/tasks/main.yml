@@ -1,0 +1,69 @@
+---
+
+- name: install packages
+  apt: name={{ item }} state=present
+  with_items:
+  - htop
+  - sudo
+  - fail2ban
+  - ufw
+  - zabbix-agent
+  - unattended-upgrades
+
+- name: add ssh-user group
+  group: name=ssh-user state=present
+
+- name: add ansible user
+  user: name=ansible state=present groups=sudo,ssh-user createhome=yes home=/home/ansible system=yes
+
+- name: add ansible key
+  authorized_key: user=ansible state=present key="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEale3rgwFlUeyFUCGtSFnYC0gHJpl1+qFv0hmy+hU/C ansible"
+
+- name: set hostname
+  hostname: name={{ hostname }}
+
+- name: add user
+  user: name={{ username }} state=present groups=sudo,ssh-user createhome=yes
+
+- name: add user key
+  authorized_key: user={{ username }} state=present key="{{ userkey }}"
+
+- name: configure ufw firewall
+  ufw: state=enabled policy=deny
+  ufw: state=enabled policy=deny rule=allow src={{ item }}
+  with_items:
+  - 10.0.0.0/8
+  - 172.16.0.0/12
+  - 192.168.0.0/16
+  - 128.153.144.0/23
+
+- name: copy ssh configs
+  copy: src=sshd_config dest=/etc/ssh/sshd_config mode="u=rw,g=r,o=r" owner=root group=root
+  copy: src=ssh_config dest=/etc/ssh/ssh_config mode="u=rw,g=r,o=r" owner=root group=root
+
+- name: regenerate ssh host keys
+  command: ssh-keygen -A
+
+- name: reload ssh
+  service: state=reloaded name=ssh
+
+#- name: start zabbix agent
+#  service: state=started enabled=yes name=zabbix-agent
+#
+#- name: register host with zabbix
+#  zabbix_host:
+#    server_url: http://zabbix.cslabs.clarkson.edu
+#    login_user: ansible
+#    login_password: "{{ zabbix_password }}"
+#    host_name: "{{ ansible_hostname }}"
+#    host_groups:
+#      - vms
+#    status: enabled
+#    state: present
+#    interfaces:
+#      - type: 1
+#        useip: 1
+#        main: 1
+#        ip: "{{ ansible_default_ipv4.address }}"
+#        dns: "{{ ansible_fqdn }}"
+#        port: 10050
