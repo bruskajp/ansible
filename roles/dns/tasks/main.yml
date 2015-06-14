@@ -1,0 +1,7 @@
+---
+
+- name: allow OIT nameservers to connect to our DNS server
+  ufw: state=enabled rule=allow src={{ item }} to_port=53
+  with_items:
+  - 128.153.0.254/32
+  - 128.153.5.254/32

@@ -1,0 +1,5 @@
+---
+- hosts: talos.cslabs.clarkson.edu
+  roles:
+  - setup
+  - dns
