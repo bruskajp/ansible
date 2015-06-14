@@ -3,3 +3,4 @@
 # but for now we just hardcode the servers that are ansible-managed.
 
 talos.cslabs.clarkson.edu
+phoenix.cslabs.clarkson.edu

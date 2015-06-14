@@ -1,0 +1,13 @@
+---
+- hosts: phoenix.cslabs.clarkson.edu
+  become: true
+  vars:
+    hostname: phoenix
+    staticip: 128.153.145.40
+  roles:
+  - setup
+  tasks:
+  - name: permissive firewall until ziltoid is up
+    ufw: state=enabled policy=allow
+  - name: custom networking because vm host
+    copy: src=files/phoenix_interfaces dest=/etc/network/interfaces mode="u=rw,g=r,o=r" owner=root group=root

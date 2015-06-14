@@ -26,15 +26,14 @@
   hostname: name={{ hostname }}
 
 - name: configure ufw firewall
-  ufw: state=enabled policy=deny
   ufw: state=enabled policy=deny rule=allow src={{ item }}
   with_items:
+  - 127.0.0.0/8 # not really private but w/e
+  - 128.153.144.0/23
   - 10.0.0.0/8
   - 172.16.0.0/12
   - 192.168.0.0/16
-  - 128.153.144.0/23
 
 - name: copy ssh configs
   copy: src=sshd_config dest=/etc/ssh/sshd_config mode="u=rw,g=r,o=r" owner=root group=root
   copy: src=ssh_config dest=/etc/ssh/ssh_config mode="u=rw,g=r,o=r" owner=root group=root
-
