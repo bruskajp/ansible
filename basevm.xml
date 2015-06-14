@@ -4,13 +4,8 @@
   <title>VM_DESC</title>
   <memory unit='MiB'>512</memory>
   <vcpu placement='static'>2</vcpu>
-  <resource>
-    <partition>/machine</partition>
-  </resource>
   <os>
-    <type arch='x86_64' machine='pc-i440fx-2.1'>hvm</type>
-    <loader readonly='yes' type='rom'>/usr/share/qemu/bios.bin</loader>
-    <bios useserial='yes' rebootTimeout='0'/>
+    <type arch='x86_64' machine='pc'>hvm</type>
   </os>
   <features>
     <acpi/>
@@ -21,7 +16,6 @@
     <kvm>
       <hidden state='on'/>
     </kvm>
-    <pmu state='on'/>
   </features>
   <cpu mode='host-model'>
     <model fallback='allow'/>
