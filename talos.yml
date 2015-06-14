@@ -1,5 +1,9 @@
 ---
 - hosts: talos.cslabs.clarkson.edu
+  become: true
+  vars:
+    hostname: talos
+    staticip: 128.153.145.3
   roles:
   - setup
   - dns
