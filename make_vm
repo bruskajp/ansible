@@ -1,0 +1,22 @@
+#!/bin/bash
+
+fail=0
+
+if [ -z "${VM_NAME:-}" ]; then
+    echo 'Must set a $VM_NAME!'
+    fail=1
+fi
+
+if [ -z "${VM_DESC:-}" ]; then
+    echo 'Must set a $VM_DESC!'
+    fail=1
+fi
+
+if [ $fail -eq 1 ]; then
+    exit 1
+fi
+
+newmac=$(perl -e 'for ($i=0;$i<5;$i++){@m[$i]=int(rand(256));} printf "02:%X:%X:%X:%X:%X\n",@m;')
+sed -e "s/VM_NAME/$VM_NAME/g" -e "s/VM_UUID/$(uuidgen)/g" \
+    -e "s/VM_DESC/$VM_DESC/g" -e "s/VM_MAC/$newmac/g" \
+    < basevm.xml
