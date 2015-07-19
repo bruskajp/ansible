@@ -12,10 +12,14 @@
     authorized_key: user={{ username }} state=present key="{{ userkey }}"
   - name: regenerate ssh host keys
     command: ssh-keygen -A
-  - name: restart ssh
-    service: state=reloaded name=ssh
-  - name: restart networking with the static ip
-    service: state=restarted name=networking
+  - name: restart machine
+    command: reboot
+    async: 0
+    poll: 0
+    ignore_errors: true
+  - name: wait for machine on new ip
+    local_action: wait_for host={{ staticip }} state=started
+    sudo: false
 #- name: start zabbix agent
 #  service: state=started enabled=yes name=zabbix-agent
 #
