@@ -15,7 +15,7 @@
   - name: restart ssh
     service: state=reloaded name=ssh
   - name: restart networking with the static ip
-    service: state=reloaded name=networking
+    service: state=restarted name=networking
 #- name: start zabbix agent
 #  service: state=started enabled=yes name=zabbix-agent
 #
