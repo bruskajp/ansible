@@ -41,10 +41,10 @@
     <controller type='ide' index='0'>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x1'/>
     </controller>
-    <interface type='direct'>
+    <interface type='bridge'>
       <mac address='VM_MAC'/>
-      <source dev='br0' mode='bridge'/>
-      <model type='rtl8139'/>
+      <source bridge='br0'/>
+      <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
     </interface>
     <serial type='pty'>
