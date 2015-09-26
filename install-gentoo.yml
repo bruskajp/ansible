@@ -1,0 +1,27 @@
+---
+- hosts: "{{ target }}"
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+  - gentoo
+#- name: start zabbix agent
+#  service: state=started enabled=yes name=zabbix-agent
+#
+#- name: register host with zabbix
+#  zabbix_host:
+#    server_url: http://zabbix.cslabs.clarkson.edu
+#    login_user: ansible
+#    login_password: "{{ zabbix_password }}"
+#    host_name: "{{ ansible_hostname }}"
+#    host_groups:
+#      - vms
+#    status: enabled
+#    state: present
+#    interfaces:
+#      - type: 1
+#        useip: 1
+#        main: 1
+#        ip: "{{ ansible_default_ipv4.address }}"
+#        dns: "{{ ansible_fqdn }}"
+#        port: 10050

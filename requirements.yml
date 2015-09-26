@@ -1,0 +1,2 @@
+- src: https://github.com/COSI-Lab/ansible-gentoo.git
+  name: gentoo
